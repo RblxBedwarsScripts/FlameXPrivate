@@ -1,0 +1,745 @@
+-- Leaked by Lunar Client
+-- Join Now: https://discord.gg/yxnDP3qR
+
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))() -- kavo ui :skul:
+local Window = Library.CreateLib("Flame X V3 | Fire Hub | Bedwars Script", "BloodTheme")
+local Tab = Window:NewTab("Patch Note")
+local Section = Tab:NewSection("Flame X V3")
+local Section = Tab:NewSection("I suggest to use KillAura V2!") -- :nerd:
+local Section = Tab:NewSection("Added Skytheme")
+local Section = Tab:NewSection("Fixed Reach")
+local Section = Tab:NewSection("Added Auto-Toxic")
+local Section = Tab:NewSection("Added Headless FE!")
+local Section = Tab:NewSection("Fixed Velocity its now V1")
+local Section = Tab:NewSection("Added FullBright")
+local Section = Tab:NewSection("Fixed and settle buttons on gui")
+local Section = Tab:NewSection("Speed is now Button for easy use")
+local Tab = Window:NewTab("Features")
+local Section = Tab:NewSection("Combat")
+Section:NewToggle("KillAura V1", "?", function(state)
+    if state then
+        local player = game:GetService("Players")
+        local lplr = player.LocalPlayer
+        local cam = workspace.CurrentCamera
+        local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+        local SwordCont = KnitClient.Controllers.SwordController
+        
+        local aura = false
+        local DistVal = {["Value"] = 25}
+        
+        local connection
+        
+        function Aura()
+            for i,v in pairs(game.Players:GetChildren()) do
+                if v.Character and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") then
+                    local mag = (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+                    if mag <= DistVal["Value"] and v.Team ~= game.Players.LocalPlayer.Team and v.Character:FindFirstChild("Humanoid") then
+                        if v.Character.Humanoid.Health > 0 then
+                            aura = true
+                            SwordCont:swingSwordAtMouse()
+                        end
+                    end
+                end
+            end
+        end
+        
+        connection = game:GetService("RunService").Stepped:connect(function()
+            Aura()
+        end)
+    else
+        if connection then
+            connection:Disconnect()
+        end
+    end
+end)
+Section:NewButton("KillAura V2", "ButtonInfo", function()
+local player = game:GetService("Players")
+local player = game:GetService("Players")
+local lplr = player.LocalPlayer
+local cam = workspace.CurrentCamera
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local SwordCont = KnitClient.Controllers.SwordController
+
+local aura = false
+local DistVal = {["Value"] = 50}
+
+local connection
+
+function Aura()
+    local closestPlayer = nil
+    local closestDistance = math.huge
+    
+    for i,v in pairs(game.Players:GetChildren()) do
+        if v ~= lplr and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+            local mag = (v.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).Magnitude
+            if mag <= DistVal["Value"] and v.Team ~= lplr.Team and v.Character:FindFirstChild("Humanoid") then
+                if v.Character.Humanoid.Health > 0 and mag < closestDistance then
+                    closestPlayer = v
+                    closestDistance = mag
+                end
+            end
+        end
+    end
+    
+    if closestPlayer then
+        aura = true
+        SwordCont:swingSwordAtMouse()
+    end
+end
+
+connection = game:GetService("RunService").Stepped:connect(function()
+    Aura()
+end)
+    print("Clicked")
+end)
+Section:NewToggle("Reach", "Extends your attack range", function(state) 
+         if state then 
+            bedwars["CombatConstant"].RAYCAST_SWORD_CHARACTER_DISTANCE = reachval["14.4"]
+		else
+			bedwars["CombatConstant"].RAYCAST_SWORD_CHARACTER_DISTANCE = 14.4
+         end 
+ end) 
+Section:NewToggle("Velocity V2", "Prevents taking a knockback", function(state) 
+         if state then 
+                 KnockbackTable["kbDirectionStrength"] = 0 
+                 KnockbackTable["kbUpwardStrength"] = 0 
+         else 
+                 KnockbackTable["kbDirectionStrength"] = 100 
+                 KnockbackTable["kbUpwardStrength"] = 100 
+         end 
+ end)
+Section:NewToggle("No Fall Damage","?",function()
+while wait() do
+game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.GroundHit:FireServer()
+end
+end)
+local void
+Section:NewToggle("AntiVoid V2", "?", function(state)
+    if state then
+        local lplr = game.Players.LocalPlayer
+        void = Instance.new("Part", workspace)
+        void.Size = Vector3.new(9999, 0.1, 9999)
+        void.Position = Vector3.new(0, 20, 0)
+        void.Name = "void"
+        void.Transparency = 0.4
+        void.BrickColor = BrickColor.new(255,165,0)
+        void.CanCollide = false
+        void.Anchored = true
+        void.Material = Enum.Material.Neon
+        void.Touched:Connect(function(part)
+            if part.Parent and part.Parent:FindFirstChildOfClass("Humanoid") then
+                lplr.Character.HumanoidRootPart.Velocity = Vector3.new(0, 110, 0)
+            end
+        end)
+    else
+        if void then
+            void:Destroy()
+           end
+     end
+end)
+Section:NewButton("Speed", "ButtonInfo", function() -- nice chat gpt btw
+-- Find the player
+local player = game.Players.LocalPlayer
+
+-- Set the desired speed
+local speed = 23
+
+-- Change the player's speed
+player.Character.Humanoid.WalkSpeed = speed
+player.Character.Humanoid.JumpPower = speed * 1.5 -- Optional: Adjust jump power based on speed
+
+-- Print a message to confirm the change
+print("Your speed has been changed to " .. speed)
+    print("Clicked")
+end)
+Section:NewButton("Inf Jump", "ButtonInfo", function()
+local InfiniteJumpEnabled = true game:GetService("UserInputService").JumpRequest:connect(function()  if InfiniteJumpEnabled then   game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")  end end)
+end)
+Section:NewButton("Fast-Click", "ButtonInfo", function()
+-- Settings
+local clickDelay = 0.1 -- Adjust this value to change the delay between each click (in seconds)
+
+-- Main function
+local function clickFaster()
+    local inputService = game:GetService("UserInputService")
+    local touchObject = nil
+    local lastClickTime = tick()
+    
+    -- Function to handle touch events
+    local function onTouch(input)
+        if input.UserInputType == Enum.UserInputType.Touch then
+            if input.UserInputState == Enum.UserInputState.Begin then
+                touchObject = input
+            elseif input.UserInputState == Enum.UserInputState.End and input == touchObject then
+                local currentTime = tick()
+                if currentTime - lastClickTime >= clickDelay then
+                    inputService:ClickButton1(Vector2.new(input.Position.X, input.Position.Y))
+                    lastClickTime = currentTime
+                end
+            end
+        end
+    end
+    
+    -- Connect the touch event
+    inputService.TouchTap:Connect(onTouch)
+end
+
+-- Call the main function
+clickFaster()
+    print("Clicked")
+end)
+Section:NewButton("No click Delay", "ButtonInfo", function()
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local clickTime = 0
+local debounce = false
+
+UserInputService.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        if debounce then
+            return
+        end
+        
+        clickTime = tick()
+        debounce = true
+    end
+end)
+
+RunService.Heartbeat:Connect(function()
+    if debounce and tick() - clickTime >= 0.2 then
+        debounce = false
+        -- Place your code here for the action you want to perform after the click
+    end
+end)
+    print("Clicked")
+end)
+local Tab = Window:NewTab("Character")
+local Section = Tab:NewSection("Player")
+Section:NewButton("Headless", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/gkebq07x"))()
+    print("Clicked")
+end)
+Section:NewButton("FOV Changer", "ButtonInfo", function()
+workspace.CurrentCamera.FieldOfView = 120
+end)
+Section:NewButton("Gravity", "ButtonInfo", function()
+game.Workspace.Gravity = 78
+end)
+Section:NewButton("PlayerTab", "ButtonInfo", function()
+-- Create a ScreenGui to hold the player names
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "PlayerNamesGui"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Create a Frame to hold the player name labels
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 150, 1, 0)
+frame.Position = UDim2.new(1, -160, 0, 0)
+frame.BackgroundTransparency = 1
+frame.Parent = screenGui
+
+-- Function to create a rainbow text label
+local function createRainbowLabel()
+    local rainbowLabel = Instance.new("TextLabel")
+    rainbowLabel.Size = UDim2.new(1, 0, 0, 20)
+    rainbowLabel.BackgroundTransparency = 1
+    rainbowLabel.TextSize = 16
+    rainbowLabel.Font = Enum.Font.SourceSansBold
+    rainbowLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+    rainbowLabel.TextStrokeTransparency = 0
+    rainbowLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    -- Function to update the text color to rainbow
+    local hue = 0
+    local updateTextColor = function()
+        hue = (hue + 1) % 360
+        local rainbowColor = Color3.fromHSV(hue / 360, 1, 1)
+        rainbowLabel.TextColor3 = rainbowColor
+        rainbowLabel.Text = rainbowLabel.Text -- Refresh text to apply the color change
+    end
+    
+    -- Connect the update function to a render step
+    game:GetService("RunService").RenderStepped:Connect(updateTextColor)
+    
+    return rainbowLabel
+end
+
+-- Function to update the player name labels
+local function updatePlayerNames()
+    -- Clear previous player name labels
+    for _, existingLabel in ipairs(frame:GetChildren()) do
+        existingLabel:Destroy()
+    end
+
+    -- Create and position new player name labels
+    local playerLabels = {}
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        local nameLabel = createRainbowLabel()
+        nameLabel.Text = player.Name
+        nameLabel.Parent = frame
+        table.insert(playerLabels, nameLabel)
+    end
+
+    -- Arrange player name labels vertically
+    local yOffset = 0
+    for _, label in ipairs(playerLabels) do
+        label.Position = UDim2.new(0, 0, 0, yOffset)
+        yOffset = yOffset + 30
+    end
+end
+
+-- Initial update of player names
+updatePlayerNames()
+
+-- Update player names whenever a player joins or leaves the game
+game.Players.PlayerAdded:Connect(updatePlayerNames)
+game.Players.PlayerRemoving:Connect(updatePlayerNames)
+    print("Clicked")
+end)
+Section:NewButton("HitBox", "ButtonInfo", function()
+_G.HeadSize = 12
+_G.Disabled = true
+ 
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
+v.Character.HumanoidRootPart.Transparency = 0.9
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.Character.HumanoidRootPart.Material = "Neon"
+v.Character.HumanoidRootPart.CanCollide = false
+end)
+end
+end
+end
+end)  
+end)
+Section:NewToggle("Tracers", "Lines", function(state)
+    if state then
+        local lplr = game.Players.LocalPlayer
+local camera = game:GetService("Workspace").CurrentCamera
+local CurrentCamera = workspace.CurrentCamera
+local worldToViewportPoint = CurrentCamera.worldToViewportPoint
+
+_G.TeamCheck = false -- Use True or False to toggle TeamCheck
+
+for i,v in pairs(game.Players:GetChildren()) do
+    local Tracer = Drawing.new("Line")
+    Tracer.Visible = false
+    Tracer.Color = Color3.new(1,1,1)
+    Tracer.Thickness = 1
+    Tracer.Transparency = 1
+
+    function lineesp()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 then
+                local Vector, OnScreen = camera:worldToViewportPoint(v.Character.HumanoidRootPart.Position)
+
+                if OnScreen then
+                    Tracer.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
+                    Tracer.To = Vector2.new(Vector.X, Vector.Y)
+
+                    if _G.TeamCheck and v.TeamColor == lplr.TeamColor then
+                        --//Teammates
+                        Tracer.Visible = false
+                    else
+                        --//Enemies
+                        Tracer.Visible = true
+                    end
+                else
+                    Tracer.Visible = false
+                end
+            else
+                Tracer.Visible = false
+            end
+        end)
+    end
+    coroutine.wrap(lineesp)()
+end
+
+game.Players.PlayerAdded:Connect(function(v)
+    local Tracer = Drawing.new("Line")
+    Tracer.Visible = false
+    Tracer.Color = Color3.new(1,1,1)
+    Tracer.Thickness = 1
+    Tracer.Transparency = 1
+
+    function lineesp()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 then
+                local Vector, OnScreen = camera:worldToViewportPoint(v.Character.HumanoidRootPart.Position)
+
+                if OnScreen then
+                    Tracer.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
+                    Tracer.To = Vector2.new(Vector.X, Vector.Y)
+
+                    if _G.TeamCheck and v.TeamColor == lplr.TeamColor then
+                        --//Teammates
+                        Tracer.Visible = false
+                    else
+                        --//Enemies
+                        Tracer.Visible = true
+                    end
+                else
+                    Tracer.Visible = false
+                end
+            else
+                Tracer.Visible = false
+            end
+        end)
+    end
+    coroutine.wrap(lineesp)()
+end)
+    else
+        print("Toggle Off")
+    end
+end)
+Section:NewButton("ESP", "ButtonInfo", function()
+while wait(0.5) do
+    for i, box in ipairs(workspace:GetDescendants()) do
+        if box:FindFirstChild("Humanoid") then
+            if not box:FindFirstChild("EspBox") then
+                if box ~= game.Players.LocalPlayer.Character then
+                    local esp = Instance.new("BoxHandleAdornment",box)
+                    esp.Adornee = box
+                    esp.ZIndex = 0
+                    esp.Size = Vector3.new(5, 6, 2)
+                    esp.Transparency = 0.5 --Changes Transparency 
+                    esp.Color3 = Color3.fromRGB(0,255,0) --Color change
+                    esp.AlwaysOnTop = true
+                    esp.Name = "EspBox"
+                end
+            end
+        end
+    end
+end
+    print("Clicked")
+end)
+Section:NewButton("Funny Spin", "ButtonInfo", function()
+local player = game.Players.LocalPlayer
+
+while wait() do
+    player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame * CFrame.Angles(0,math.rad(20),0)
+end
+    print("Clicked")
+end)
+Section:NewButton("Auto-Toxic", "ButtonInfo", function()
+local ChatDelay = 5 -- Change this value to adjust the delay in seconds
+
+local ChatPhrases = {
+    "Want to be pro? Use Flame X", -- :nerd:
+    "Skill issue? Flame X is the cure", -- :nerd:
+    "You're so bad you can't even aim",
+    "L bozo, I'm winning anyway", -- :nerd:
+    "I love destroying Lego games",
+    "Flame X on top", -- :nerd:
+    "Imagine losing",
+    "Get mad, kid",
+    "Bedwars anti-cheat is not that good"
+}
+
+local function SendChatMessage(message)
+    game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(message, "All")
+end
+
+local function ChatRandomPhrase()
+    local randomIndex = math.random(1, #ChatPhrases)
+    local phrase = ChatPhrases[randomIndex]
+    SendChatMessage(phrase)
+end
+
+while true do
+    ChatRandomPhrase()
+    wait(ChatDelay)
+end
+
+    print("Clicked")
+end)
+Section:NewButton("Auto Spam", "ButtonInfo", function()
+while true do
+    wait(1) -- wait for 1 second
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Power of Flame X, L Bozo time to Win", "All")
+end
+    print("Clicked")
+end)
+Section:NewButton("Cape", "Opens Cape", function()
+
+local player = game:GetService("Players")
+
+local lplr = player.LocalPlayer
+
+if lplr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+
+      if lplr.Character:FindFirstChild("Torso") then
+
+        torso = lplr.Character.Torso
+
+      else
+
+        torso = lplr.Character.UpperTorso
+
+      end
+
+      local CapeP = Instance.new("Part", torso.Parent)
+
+      CapeP.Name = "Cape"
+
+      CapeP.Anchored = false
+
+      CapeP.CanCollide = false
+
+      CapeP.TopSurface = 0
+
+      CapeP.BottomSurface = 0
+
+      CapeP.Color = Color3.fromRGB(0,0,0)
+
+      CapeP.FormFactor = "Custom"
+
+      CapeP.Size = Vector3.new(0.2,0.2,0.2)
+
+      local decal = Instance.new("Decal", CapeP)
+
+      decal.Texture = "http://www.roblox.com/asset/?id=9608953346"
+
+      decal.Face = "Back"
+
+      local msh = Instance.new("BlockMesh", CapeP)
+
+      msh.Scale = Vector3.new(9,17.5,0.5)
+
+      local motor = Instance.new("Motor", CapeP)
+
+      motor.Part0 = CapeP
+
+      motor.Part1 = torso
+
+      motor.MaxVelocity = 0.01
+
+      motor.C0 = CFrame.new(0,1.75,0) * CFrame.Angles(0,math.rad(90),0)
+
+      motor.C1 = CFrame.new(0,1,0.45) * CFrame.Angles(0,math.rad(90),0)
+
+      local wave = false
+
+      repeat wait(1/44)
+
+        decal.Transparency = torso.Transparency
+
+        local ang = 0.1
+
+        local oldmag = torso.Velocity.magnitude
+
+        local mv = 0.002
+
+        if wave then
+
+          ang = ang + ((torso.Velocity.magnitude/10) * 0.05) + 0.05
+
+          wave = false
+
+        else
+
+          wave = true
+
+        end
+
+        ang = ang + math.min(torso.Velocity.magnitude/11, 0.5)
+
+        motor.MaxVelocity = math.min((torso.Velocity.magnitude/111), 0.04) + mv
+
+        motor.DesiredAngle = -ang
+
+        if motor.CurrentAngle < -0.2 and motor.DesiredAngle > -0.2 then
+
+          motor.MaxVelocity = 0.04
+
+        end
+
+        repeat wait() until motor.CurrentAngle == motor.DesiredAngle or math.abs(torso.Velocity.magnitude - oldmag) >= (torso.Velocity.magnitude/10) + 1
+
+        if torso.Velocity.magnitude < 0.1 then
+
+          wait(0.1)
+
+        end
+
+      until not CapeP or CapeP.Parent ~= torso.Parent
+
+    end
+
+end)
+Section:NewButton(" Animation HUB (All)", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/GamingScripter/Animation-Hub/main/Animation%20Gui", true))()
+    print("Clicked")
+end)
+local Tab = Window:NewTab("World")
+local Section = Tab:NewSection("I will add more soon")
+Section:NewButton("SkyTheme", "ButtonInfo", function()
+-- Get the Lighting service
+local lighting = game:GetService("Lighting")
+
+-- Define the rainbow colors
+local rainbowColors = {
+    Color3.fromRGB(255, 0, 0),     -- Red
+    Color3.fromRGB(255, 165, 0),   -- Orange
+    Color3.fromRGB(255, 255, 0),   -- Yellow
+    Color3.fromRGB(0, 128, 0),     -- Green
+    Color3.fromRGB(0, 0, 255),     -- Blue
+    Color3.fromRGB(75, 0, 130),    -- Indigo
+    Color3.fromRGB(238, 130, 238)  -- Violet
+}
+
+-- Define the time interval between color changes (in seconds)
+local colorChangeInterval = 1
+
+-- Function to change the sky color
+local function changeSkyColor()
+    -- Loop through each color in the rainbowColors table
+    for i, color in ipairs(rainbowColors) do
+        -- Change the sky color
+        lighting:SetMinutesAfterMidnight(i * colorChangeInterval)
+        lighting.Ambient = color
+
+        -- Wait for the specified time interval before changing the color again
+        wait(colorChangeInterval)
+    end
+end
+
+-- Call the function to start changing the sky color
+changeSkyColor()
+
+    print("Clicked")
+end)
+Section:NewButton("Fulbright", "ButtonInfo", function()
+game:GetService("Lighting").Brightness = 2
+game:GetService("Lighting").ClockTime = 14
+game:GetService("Lighting").FogEnd = 100000
+game:GetService("Lighting").GlobalShadows = false
+game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(128, 128, 128)
+    print("Clicked")
+end)
+Section:NewButton("Bypass Bedwars Map", "ButtonInfo", function()
+-- Get all parts in the game
+local parts = game:GetService("Workspace"):GetDescendants()
+ 
+-- Iterate through each part and change its texture color to red
+for _, part in ipairs(parts) do
+    if part:IsA("BasePart") then
+        -- Change the part's texture color to red
+        part.BrickColor = BrickColor.new("Bright red")
+    end
+end
+    print("Clicked")
+end)
+Section:NewButton("Anti Crash", "ButtonInfo", function()
+local ToDisable = {
+	Textures = true,
+	VisualEffects = true,
+	Parts = true,
+	Particles = true,
+	Sky = true
+}
+
+local ToEnable = {
+	FullBright = false
+}
+
+local Stuff = {}
+
+for _, v in next, game:GetDescendants() do
+	if ToDisable.Parts then
+		if v:IsA("Part") or v:IsA("Union") or v:IsA("BasePart") then
+			v.Material = Enum.Material.SmoothPlastic
+			table.insert(Stuff, 1, v)
+		end
+	end
+	
+	if ToDisable.Particles then
+		if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Explosion") or v:IsA("Sparkles") or v:IsA("Fire") then
+			v.Enabled = false
+			table.insert(Stuff, 1, v)
+		end
+	end
+	
+	if ToDisable.VisualEffects then
+		if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("SunRaysEffect") then
+			v.Enabled = false
+			table.insert(Stuff, 1, v)
+		end
+	end
+	
+	if ToDisable.Textures then
+		if v:IsA("Decal") or v:IsA("Texture") then
+			v.Texture = ""
+			table.insert(Stuff, 1, v)
+		end
+	end
+	
+	if ToDisable.Sky then
+		if v:IsA("Sky") then
+			v.Parent = nil
+			table.insert(Stuff, 1, v)
+		end
+	end
+end
+
+game:GetService("TestService"):Message("Effects Disabler Script : Successfully disabled "..#Stuff.." assets / effects. Settings :")
+
+for i, v in next, ToDisable do
+	print(tostring(i)..": "..tostring(v))
+end
+
+if ToEnable.FullBright then
+    local Lighting = game:GetService("Lighting")
+    
+    Lighting.FogColor = Color3.fromRGB(255, 255, 255)
+    Lighting.FogEnd = math.huge
+    Lighting.FogStart = math.huge
+    Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+    Lighting.Brightness = 5
+    Lighting.ColorShift_Bottom = Color3.fromRGB(255, 255, 255)
+    Lighting.ColorShift_Top = Color3.fromRGB(255, 255, 255)
+    Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+    Lighting.Outlines = true
+end
+    print("Clicked")
+end)
+Section:NewButton("Theme (Red)", "ButtonInfo", function()
+-- get the Lighting service
+local Lighting = game:GetService("Lighting")
+
+-- set the sky color to red
+Lighting.Ambient = Color3.new(1, 0, 0)
+
+    print("Clicked")
+end)
+Section:NewButton("Cover the Entire Void", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/9exqXMDC"))()
+    print("Clicked")
+end)
+local Tab = Window:NewTab("BedNuker")
+local Section = Tab:NewSection("FireCat")
+Section:NewButton("BedNuker", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/nv0AJ79r"))()
+    print("Clicked")
+end)
+loadstring(game:HttpGet("https://pastebin.com/raw/fCLSjzdZ"))()
+local StarterGui = game:GetService("StarterGui")
+local message = "Flame X V2 Enjoy the massive troll experience!"
+
+StarterGui:SetCore("SendNotification", {
+    Title = "Notification",
+    Text = message,
+    Duration = 10 -- Adjust the duration (in seconds) the notification will stay on the screen
+})
+local Tab = Window:NewTab("Support/Info")
+local Section = Tab:NewSection("Credit to FlamingDrey for making this script")
+local Section = Tab:NewSection("Have Problem? Contact Discord Drey#9399")
+local Section = Tab:NewSection("Credit to Owners for Script Gui Used in some Features")
+local Section = Tab:NewSection("Thx for help IamHamzaBG sub to his yt")
+local Section = Tab:NewSection("Released Date: ?")
+local Section = Tab:NewSection("Subscribe to FlamingDrey on YOUTUBE")
+local Section = Tab:NewSection("Thx for using this script!")
